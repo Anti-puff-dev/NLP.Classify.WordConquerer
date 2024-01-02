@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MathUtils">
+      <HintPath>..\MathUtils\bin\Release\net8.0\MathUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="StringUtils">
+      <HintPath>..\StringUtils\bin\Release\net8.0\StringUtils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
