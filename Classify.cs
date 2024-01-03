@@ -11,6 +11,7 @@ namespace NLP
         private double dropout = 0.0001d;
         private int maxlength = 0;
         private bool soundex = false;
+        private bool usePreAttention = true;
         private Modes mode = Modes.ATTENTION;
 
         private List<Category> categories = new List<Category>();
@@ -78,11 +79,16 @@ namespace NLP
         }
 
 
-
-
         public Classify Dropout(double dropout)
         {
             this.dropout = dropout;
+            return this;
+        }
+
+
+        public Classify UsePreAttention(bool usePreAttention)
+        {
+            this.usePreAttention = usePreAttention;
             return this;
         }
         #endregion Setters
@@ -125,7 +131,7 @@ namespace NLP
         public void Train()
         {
             Console.WriteLine("Training Start");
-            UsePreAttention();
+            if(usePreAttention) UsePreAttention();
             if (mode == Modes.ATTENTION || mode == Modes.HARD_ATTENTION)
             {
                 UseAttention();
