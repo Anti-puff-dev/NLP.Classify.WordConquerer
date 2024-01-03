@@ -8,7 +8,7 @@ namespace NLP
     public class Classify
     {
         private double word_pooling = 1d;
-        private double dropout = 0.00001d;
+        private double dropout = 0.0001d;
         private int maxlength = 0;
         private bool soundex = false;
         private Modes mode = Modes.ATTENTION;
@@ -29,6 +29,16 @@ namespace NLP
         }
 
 
+        public static Classify Instance()
+        {
+            return new Classify();
+        }
+
+
+        public static Classify Instance(string model_path)
+        {
+            return new Classify(model_path);
+        }
 
 
         #region Setters
@@ -56,11 +66,19 @@ namespace NLP
             return this;
         }
 
-        public Classify Model(string model_path)
+        public Classify Model(string model_path, bool read = false)
         {
             this.model_path = model_path;
+
+            if(File.Exists(model_path) && read)
+            {
+                tensors = LoadModel(model_path);
+            }
             return this;
         }
+
+
+
 
         public Classify Dropout(double dropout)
         {
@@ -72,7 +90,7 @@ namespace NLP
 
 
         #region AddData
-        void AddCategory(string name, string text)
+        public Classify AddCategory(string name, string text)
         {
             int index = categories.FindIndex(c => c.Name == name);
 
@@ -86,16 +104,18 @@ namespace NLP
             {
                 categories[index].AddTokens(Tokenize.Instance(word_pooling, maxlength, soundex).Apply(Sanitize.HardApply(text)));
             }
+            return this;
         }
 
 
 
-        void AddCategories(string name, string[] list)
+        public Classify AddCategories(string name, string[] list)
         {
             foreach (string item in list)
             {
                 AddCategory(name, item);
             }
+            return this;
         }
         #endregion AddData
 
@@ -104,6 +124,7 @@ namespace NLP
         #region Train
         public void Train()
         {
+            Console.WriteLine("Training Start");
             UsePreAttention();
             if (mode == Modes.ATTENTION || mode == Modes.HARD_ATTENTION)
             {
@@ -112,8 +133,9 @@ namespace NLP
             Race();
             Fit();
 
-            if (String.IsNullOrEmpty(model_path)) model_path = "conquerer-cid10-" + mode.ToString().ToLower() + "-" + word_pooling + "-model.bin";
+            if (String.IsNullOrEmpty(model_path)) model_path = "conquerer-" + mode.ToString().ToLower() + "-" + word_pooling + "-model.bin";
             SaveModel(model_path);
+            Console.WriteLine("Training Finished");
         }
 
 
@@ -215,11 +237,11 @@ namespace NLP
 
 
         #region Predict
-        List<Result> Predict(string text, int max_results = 2)
+        public Result[] Predict(string text, int max_results = 2)
         {
             Token[] tokens = Tokenize.Instance(word_pooling, maxlength, soundex).Apply(Sanitize.HardApply(text));
             List<Result> results = new List<Result>();
-            Dictionary<string, double> scores = new Dictionary<string, double>();
+            
 
             if (mode == Modes.HARD || mode == Modes.HARD_ATTENTION)
             {
@@ -270,8 +292,7 @@ namespace NLP
 
             results = SoftMax(results);
             results = results.OrderByDescending(r => r.confidence).ToList();
-
-            return Limiter(results, max_results);
+            return Limiter(results, max_results).ToArray();
 
         }
         #endregion Predict
@@ -417,7 +438,7 @@ namespace NLP
         }
 
 
-        void Print(List<Result> list)
+        public static void Print(Result[] list)
         {
             foreach (Result result in list)
             {
