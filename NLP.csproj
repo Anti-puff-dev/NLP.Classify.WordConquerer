@@ -14,6 +14,9 @@
     <Reference Include="MathUtils">
       <HintPath>..\MathUtils\bin\Release\net8.0\MathUtils.dll</HintPath>
     </Reference>
+    <Reference Include="MySQL">
+      <HintPath>..\..\Projetos2022\MySQLNet6\MySQL\bin\Release\net8.0\MySQL.dll</HintPath>
+    </Reference>
     <Reference Include="StringUtils">
       <HintPath>..\StringUtils\bin\Release\net8.0\StringUtils.dll</HintPath>
     </Reference>
