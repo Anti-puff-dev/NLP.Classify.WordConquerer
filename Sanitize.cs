@@ -34,6 +34,20 @@ namespace NLP
         }
 
 
+        public static string SoftApply(string s)
+        {
+            s = Regex.Replace(s, @"\p{P}", "");
+            s = Regex.Replace(s, "[^0-9a-zA-Zà-úÀ-Ú.]+", " ").ToLower();
+            s = s.Replace("\r\n", " ");
+            s = s.Replace("\n\r", " ");
+            s = s.Replace("\n", " ");
+            s = s.Replace("\r", " ");
+            s = s.Replace(Environment.NewLine, " ");
+            s = s.Replace("  ", " ").ToLower();
+            return s;
+        }
+
+
         public static string HardApply(string s)
         {
             s = Regex.Replace(s, @"\p{P}", "");
