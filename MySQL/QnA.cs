@@ -7,7 +7,7 @@ namespace NLP.MySQL
         private string string_conection = "";
         private string field_name = "";
         private string table_name = "";
-
+        private double threshold = 5;
 
         public QnA()
         {
@@ -50,6 +50,13 @@ namespace NLP.MySQL
         public QnA TableName(string table_name)
         {
             this.table_name = table_name;
+            return this;
+        }
+
+
+        public QnA Threshold(double threshold)
+        {
+            this.threshold = threshold;
             return this;
         }
         #endregion Setters
@@ -118,6 +125,8 @@ namespace NLP.MySQL
 	            ({vals}) AS val
 
             FROM {table_name}
+
+            WHERE  ({vals})>{threshold} 
 
             ORDER BY ({vals}) DESC
 
