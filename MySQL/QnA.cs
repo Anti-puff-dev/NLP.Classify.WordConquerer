@@ -63,7 +63,7 @@ namespace NLP.MySQL
 
 
 
-        public Result[] Predict(string phrase, int results = 1)
+        public Result[] PredictFree(string phrase, int results = 1)
         {
             phrase = Sanitize.SoftApply(phrase);
             string[] list = phrase.Split(new char[] { ' ', '\t' });
@@ -139,5 +139,9 @@ namespace NLP.MySQL
             db.DbConnection.ConnString = string_conection;
             return db.Json.Select.Fill(query, new string[] { }).Multiple<Result>();
         }
+
+
+
+        
     }
 }
