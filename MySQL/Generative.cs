@@ -97,7 +97,7 @@ namespace NLP.MySQL
                 {sets}  
                 
                 SELECT 
-                    SUBSTRING_INDEX(SUBSTRING_INDEX(TRIM(BOTH ' ' FROM info), ' ', 4),' ', -1) AS phrase,
+                    SUBSTRING_INDEX(SUBSTRING_INDEX(TRIM(BOTH ' ' FROM info), ' ', {(list.Length+1)}),' ', -1) AS phrase,
 	                ({vals}) AS confidence
 
                 FROM {table_name}
