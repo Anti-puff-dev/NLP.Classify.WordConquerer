@@ -8,6 +8,7 @@ namespace NLP.MySQL
         private string string_conection = "";
         private string field_name = "";
         private string table_name = "";
+        private string where = "";
         private double threshold = 5;
 
         public Generative()
@@ -103,6 +104,7 @@ namespace NLP.MySQL
                 FROM {table_name}
 
                 WHERE  ({vals})>{threshold} 
+                    {(!String.IsNullOrEmpty(where) ? " AND " + where + " " : "")} 
 
                 ORDER BY ({vals}) DESC LIMIT {results};  
             ";
@@ -152,6 +154,7 @@ namespace NLP.MySQL
                 FROM {table_name}
 
                 WHERE  ({vals})>{threshold} 
+                    {(!String.IsNullOrEmpty(where) ? " AND " + where + " " : "")} 
 
                 ORDER BY ({vals}) DESC LIMIT {results}; 
             ";
