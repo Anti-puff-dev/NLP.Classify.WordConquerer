@@ -227,7 +227,7 @@ namespace NLP.MySQL
             ";
 
             db.DbConnection.ConnString = string_conection;
-            return db.Json.Select.Fill(query, new string[] { }).Multiple<Result>();
+            return db.Json.Select.Fill(query, []).Multiple<Result>();
         }
     }
 }

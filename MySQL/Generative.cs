@@ -68,7 +68,7 @@ namespace NLP.MySQL
         public Result[] NextWord(string phrase, int results = 1)
         {
             phrase = Sanitize.SoftApply(phrase);
-            string[] list = phrase.Split(new char[] { ' ', '\t' });
+            string[] list = phrase.Split([' ', '\t' ]);
 
 
             string sets = "";
@@ -110,7 +110,7 @@ namespace NLP.MySQL
             ";
 
             db.DbConnection.ConnString = string_conection;
-            return db.Json.Select.Fill(query, new string[] { }).Multiple<Result>();
+            return db.Json.Select.Fill(query, []).Multiple<Result>();
         }
 
 
@@ -161,7 +161,7 @@ namespace NLP.MySQL
 
 
             db.DbConnection.ConnString = string_conection;
-            return db.Json.Select.Fill(query, new string[] { }).Multiple<Result>();
+            return db.Json.Select.Fill(query, []).Multiple<Result>();
         }
     }
 }
