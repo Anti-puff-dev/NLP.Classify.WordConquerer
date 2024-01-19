@@ -72,6 +72,8 @@ namespace NLP
         {
             this.model_path = model_path;
 
+            Console.WriteLine($"{model_path} {File.Exists(model_path)} {read}");
+
             if(File.Exists(model_path) && read)
             {
                 tensors = LoadModel(model_path);

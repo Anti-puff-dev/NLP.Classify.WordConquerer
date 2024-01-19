@@ -68,6 +68,7 @@ namespace NLP.Models
             double[,] W_K = new double[3, 3] { { -0.51, -0.13, 0.67 }, { -0.11, 0.29, 0.49 }, { -0.01, 0.78, -0.61 } };
             double[,] W_V = new double[3, 3] { { 0.09, -0.07, 0.8 }, { 0.5, 0.12, 0.48 }, { -0.31, 0.7, 0.33 } };*/
 
+            
             double[,] W_Q = new double[,] { { 2, 0, 2 }, { 2, 0, 0 }, { 2, 1, 2 } };
             double[,] W_K = new double[,] { { 2, 2, 2 }, { 0, 2, 1 }, { 0, 1, 1 } };
             double[,] W_V = new double[,] { { 1, 1, 0 }, { 0, 1, 1 }, { 0, 0, 0 } };
@@ -101,7 +102,27 @@ namespace NLP.Models
 
 
                 double[] sum = MathX.Sum(attention_heads);
-                this.Tokens[p].weight = this.Tokens[p].weight * sum[0] + this.Tokens[p].weight * sum[1] + this.Tokens[p].weight * sum[2];
+                try
+                {
+                    this.Tokens[p].weight = this.Tokens[p].weight * sum[0] + this.Tokens[p].weight * sum[1] + this.Tokens[p].weight * sum[2];
+                } catch(Exception e1)
+                {
+                    try
+                    {
+                        this.Tokens[p].weight = this.Tokens[p].weight * sum[0] + this.Tokens[p].weight * sum[1];
+                    }
+                    catch (Exception e2)
+                    {
+                        try
+                        {
+                            this.Tokens[p].weight = this.Tokens[p].weight * sum[0];
+                        }
+                        catch (Exception e3)
+                        {
+                            
+                        }
+                    }
+                }
             }
         }
     }
